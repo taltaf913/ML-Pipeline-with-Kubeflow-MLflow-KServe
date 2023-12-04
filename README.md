@@ -112,7 +112,7 @@ Let's run the cells one by one from `IRIS-ML-Pipeline.ipynb` notebook and wait f
 
 ![KFP ML Pipeline](docs/images/kfp_ml_pipeline.jpeg)
 
-Let’s look at the model deployment status and run some inference tests.
+Let’s look at the model deployment status and run some inference tests - `kubectl get pods -n kubeflow`
 
 ![Model Deployment Status](docs/images/model_deployment_status.jpeg)
 
