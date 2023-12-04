@@ -58,7 +58,7 @@ kubectl apply -f create-s3-sa.yaml
 
 ```
 
-Let’s create PVC to store the model metadata
+Let’s create PVC to store the model metadata.
 
 ```
 cd config/mlflow
@@ -105,3 +105,24 @@ We can’t download the Istio 1.17.2 due to some issue, hence we can download th
 cd config/kubeflow
 ./hack/quick_install.sh
 ```
+
+## The Complete Pipeline
+
+Let's run the cells one by one from `IRIS-ML-Pipeline.ipynb` notebook and wait for all steps to complete in Kubeflow pipeline.
+
+![KFP ML Pipeline](docs/images/kfp_ml_pipeline.jpeg)
+
+Let’s look at the model deployment status and run some inference tests.
+
+![Model Deployment Status](docs/images/model_deployment_status.jpeg)
+
+First, we need to do some port forwarding work so our model’s port is exposed to our local system with the command:
+
+`kubectl port-forward -n istio-system service/istio-ingressgateway 8080:80`
+
+We’ll use the curl command to send the input json file as input to the predict method on our InferenceService on KServe with the command: 
+`curl -v -H "Host: sklearn-iris-v2.kubeflow.example.com" -H "Content-Type: application/json" "http://localhost:8080/v1/models/sklearn-iris-v2:predict" -d @./iris-input.json`
+
+The response will look like:
+
+![Inference Result](docs/images/inference_result.jpeg)
